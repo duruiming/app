@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" >
+    <title>login</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+</head>
+<style>
+    body,header,section,button,ul,li,h3,h5,p,div,.container,.container-fluid,.row,{
+        margin:0; padding:0; list-style:none;
+    }
+    .top{
+        width:100vw;
+        height:4vh;
+        background:#333;
+    }
+    header{
+        width:100vw;
+        height:14vw;
+        background:#EF27DA;
+    }
+    header h3{
+        text-align:center;
+        font-size: 8vw;
+        margin:3vw 0;
+        color:#fff;
+    }
+    header .back{
+        text-align:center;
+        font-size: 6vw;
+        margin:4vw 0;
+        color:#333;
+        opacity:0.7;
+        text-decoration:none;
+    }
+    header button{
+        padding: 0!important;
+        text-align:center;
+        margin:4vw 0;
+        width: 12vw !important;
+        height:6vw;
+        font-size: 3vw;
+        color:#fff;
+        border:1px solid ##E03569;
+        background:#EF27DA;
+        border-radius:5px;
+    }
+    /*section*/
+    section{
+        background: #F7F7F7;
+        height:76vh;
+    }
+    section div{
+        width:80vw;
+        height:10vw;
+        padding:12vw 10vw;
+    }
+    section div input{
+        width:80vw;
+        height:12vw;
+        border-radius:40px;
+        outline:none;
+        border:1px solid #333;
+        font-size: 6vw;
+        padding: 0 30px;
+        color:#333;
+    }
+    section div p{
+        width:100vw;
+        font-size: 3.2vw;
+        padding:2vw 0;
+        color:#333333;
+    }
+    section div:last-child input{
+        width:4vw;
+        height:4vw;
+    }
+    section div:last-child span{
+        font-size: 4vw;
+    }
+    section div:last-child button{
+        width:80vw;
+        height:12vw;
+        background:#EF27DA;
+        color:#fff;
+        font-size: 8vw;
+        border-radius:40px;
+        outline:none;
+        border:1px solid #333;
+    }
+    section div:last-child a{
+        margin-left:40px;
+        font-size: 4vw;
+    }
+        /*foot*/
+    footer{
+        background:#333;
+        width:100vw;
+        color:#fff;
+        height:10vh;
+        display:flex;
+        flex-flow:row nowrap;
+        justify-content: space-around;
+    }
+    footer a{
+    	width:16vw;
+    	background:red;
+    }
+
+</style>
+<body>
+    <div class="top"></div>
+    <header class="container-fluid">
+       <div class="row">
+           <a href="register.html" class="back col-xs-2 glyphicon glyphicon-arrow-left"></a>
+           <h3 class="col-xs-8">登录</h3>
+           <button class="re-login col-xs-2">注册</button>
+       </div>
+    </header>
+    <section>
+        <div class="uname">
+            <input id="user" type="text" placeholder="账号" required="required" >
+        </div>
+       <div class="pwd">
+           <input is="pwd" type="password" placeholder="密码" required >
+           <p></p>
+       </div>
+        <div class="login">
+            <p>
+                <input type="checkbox" checked>
+                <span>记住密码</span>
+                <a href="javascript:;">忘记密码？</a>
+            </p>
+            <button id="regest">登录</button>
+        </div>
+    </section>
+    <footer>
+        <a href="">
+        	<p></p>
+        	<span></span>
+        </a>
+         <a href="">
+        	<p></p>
+        	<span></span>
+        </a> 
+        <a href="">
+        	<p></p>
+        	<span></span>
+        </a>
+         <a href="">
+        	<p></p>
+        	<span></span>
+        </a>
+         <a href="">
+        	<p></p>
+        	<span></span>
+        </a>
+    </footer>
+</body>
+<script src="../js/jquery-1.12.4.js"></script>
+<script src="../js/touch.js"></script>
+<script>
+    $(document).ready(function(){
+        touch.on("#regest","tap",function(){
+            var user = $("#user").val();
+            var pwd = $("#pwd").val();
+            $.ajax({
+                url:"http://datainfo.duapp.com/shopdata/userinfo.php",
+                data:{
+                    status:"login",
+                    userID:user,
+                    password:pwd,
+                },
+                success:function(dataa){
+                    var data=JSON.parse(dataa);
+                    if(data.code){
+                        alert("欢迎"+data.userID+"回来");
+                        localStorage.user=data.userID;
+                        setTimeout(function(){
+                            window.location.href="register.html"
+                        },500)
+                    }else if(data==0){
+                        alert("用户名不存在");
+                    }else if(data==2){
+                        alert("密码不正确")
+                    }
+                },
+                error:function(data){
+                    console.log(data)
+                }
+            })
+        })
+
+    })
+</script>
+</html>
